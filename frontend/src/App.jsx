@@ -1,17 +1,14 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./pages/login"; // Adjust path as needed
 
 function App() {
-  
-
   return (
-    <>
-
-    <h1 className='text-red-700 text-9xl bg-amber-300'>hello</h1>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+          </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
