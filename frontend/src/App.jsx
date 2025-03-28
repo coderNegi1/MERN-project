@@ -1,12 +1,15 @@
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "./components/common/Navbar.jsx";
 import Login from "./pages/login"; // Adjust path as needed
 
 function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
         <Route path="/login" element={<Login />} />
-          </Routes>
+      </Routes>
     </BrowserRouter>
   );
 }
