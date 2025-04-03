@@ -21,8 +21,8 @@ const Login = () => {
 
       {/* Right Side (Login Form) */}
       <div className="w-full md:w-1/2 p-6 md:p-16 lg:p-32 flex flex-col justify-center align-middle">
-        <h2 className="text-lg md:text-xl text-start mb-4 uppercase font-bold">Welcome Back !</h2>
-        <p className="text-start mb-3 text-sm md:text-base">
+        <h2 className="text-2xl  text-start mb-4 uppercase font-bold">Welcome Back !</h2>
+        <p className="text-start mb-5 text-xl">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio pariatur velit tempora tempore nesciunt quisquam, minima dolorem facere ipsam nemo?
         </p>
         <hr />
