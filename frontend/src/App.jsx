@@ -1,15 +1,13 @@
+// App.js
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Navbar from './components/common/Navbar.jsx';
-
+import { BrowserRouter as Router } from 'react-router-dom'; // Only one Router
+import AppRoutes from './routes/publicRoutes'; //use the now corrected AppRoutes
 
 function App() {
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
-      </Routes>
-    </BrowserRouter>
+    <Router>
+      <AppRoutes />
+    </Router>
   );
 }
 
