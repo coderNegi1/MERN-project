@@ -8,8 +8,8 @@ function App() {
   return (
     <Router>
       <AppRoutes />
+
     </Router>
 )
 }
-
 export default App;
