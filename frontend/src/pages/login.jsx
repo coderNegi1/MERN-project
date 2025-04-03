@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-function Login(){
-    return(
-        <>Login</>
-    )
-}
-export default Login;
-=======
+
 import React from "react";
 import { NavLink } from "react-router-dom";
 
@@ -68,4 +61,3 @@ const Login = () => {
 };
 
 export default Login;
->>>>>>> origin/main
