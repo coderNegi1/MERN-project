@@ -3,6 +3,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom'; // Removed BrowserRouter
 import Login from '../pages/login.jsx';
 import Navbar from '../components/common/Navbar.jsx';
+import Footer from '../components/common/footer.jsx';
 
 function AppRoutes() {
   return (
@@ -11,6 +12,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/login" element={<Login />} />
       </Routes>
+      <Footer/>
     </>
   );
 }

@@ -9,15 +9,15 @@ function Navbar() {
 
   return (
     <>
-      <nav className="bg-gray-800 p-4">
+      <nav className="bg-black ">
         <div className=" mx-auto flex justify-between space-x-4  items-center">
-          <div>
-            <Logo/>
+          <div className=''>
+            <Logo />
           </div>
-          <div className="text-white hidden md:block animate-bounce border p-2 px-4 rounded-3xl">  Delivery on your Next Day from 09:00 AM to 07:00 PM</div>
+          <marquee className="text-green-600 hidden  lg:block  p-2 w-96 font-bold text-2xl ">  Delivery on your Next Day from 09:00 AM to 07:00 PM</marquee>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex md:space-x-14">
+          <div className="hidden md:flex md:space-x-14 uppercase text-[16px] ">
             {/* Main Menu Items */}
             <div className="relative group">
               <Link to="/" className="text-gray-300 hover:text-white">Home</Link>
@@ -40,6 +40,7 @@ function Navbar() {
             </div>
           </div>
 
+
           {/* Mobile Hamburger Menu */}
           <div className="md:hidden">
             <button
@@ -52,6 +53,10 @@ function Navbar() {
             </button>
           </div>
         </div>
+        <div className=''>
+          <marquee className="text-green-600  md:block lg:hidden w-full font-bold text-2xl pb-4">  Delivery on your Next Day from 09:00 AM to 07:00 PM</marquee>
+
+        </div>
 
         {/* Mobile Dropdown Menu */}
         {isMenuOpen && (
@@ -62,12 +67,12 @@ function Navbar() {
             <Link to="/contact" className="block text-gray-300 hover:text-white py-2 px-4">Contact</Link>
             <Link to="/login" className="block text-gray-300 hover:text-white py-2 px-4">Login</Link>
 
-          <div className="text-white py-2 px-4">  Delivery on your Next Day from 09:00 AM to 07:00 PM</div>
+            {/* <div className="text-white py-3 px-4">  Delivery on your Next Day from 09:00 AM to 07:00 PM</div> */}
 
           </div>
         )}
       </nav>
-      <Categoriesnav/>
+      <Categoriesnav />
     </>
   );
 }
