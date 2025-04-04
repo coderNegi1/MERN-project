@@ -72,6 +72,9 @@ export const LoginController = async (req, res) => {
                 id: user._id,
                 name: user.name,
                 email: user.email,
+                phone: user.phone,
+                address: user.address,
+                answer: user.answer
             },
             token
         });
@@ -95,7 +98,7 @@ export const TestController = (req, res) => {
 
 
 //FORGOT PASSWORD API ---->
-export const forgotPasswordController = async (req,res) => {
+export const ForgotPasswordController = async (req,res) => {
     try{
         const {email, answer, newPassword} = req.body;
         if (!email){
