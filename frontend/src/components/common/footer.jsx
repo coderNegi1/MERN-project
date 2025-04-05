@@ -1,10 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-10 ">
+    <footer className="bg-gray-900 text-white py-10">
       <div className="max-w-6xl mx-auto px-5 flex flex-col md:flex-row justify-between items-center">
         {/* Logo and Intro */}
         <div className="mb-6 md:mb-0 text-center md:text-left">

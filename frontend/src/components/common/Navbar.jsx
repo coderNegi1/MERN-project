@@ -1,29 +1,23 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from './logo';
-import Categoriesnav from './Categoriesnav';
+import Categoriesnav from './Categoriesnav'
+import AppRoutes from '../../routes/publicRoutes';
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track login status
-
-  const toggleLoginState = () => {
-    setIsLoggedIn(!isLoggedIn); // Toggle login state
-  };
 
   return (
     <>
-      <nav className="bg-black">
-        <div className="mx-auto flex justify-between space-x-4 items-center">
-          <div className="">
-            <Logo />
+      <nav className="bg-gray-800 p-4">
+        <div className=" mx-auto flex justify-between space-x-4  items-center">
+          <div>
+            <Logo/>
           </div>
-          <marquee className="text-green-600 hidden lg:block p-2 w-96 font-bold text-2xl">
-            Delivery on your Next Day from 09:00 AM to 07:00 PM
-          </marquee>
+          <div className="text-white hidden md:block animate-bounce border p-2 px-4 rounded-3xl">  Delivery on your Next Day from 09:00 AM to 07:00 PM</div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex md:space-x-14 uppercase text-[16px]">
+          <div className="hidden md:flex md:space-x-14">
             {/* Main Menu Items */}
             <div className="relative group">
               <Link to="/" className="text-gray-300 hover:text-white">Home</Link>
@@ -41,34 +35,9 @@ function Navbar() {
               <Link to="/contact" className="text-gray-300 hover:text-white">Contact</Link>
             </div>
 
-            {/* Conditionally render Register or Dashboard */}
-            {!isLoggedIn && (
-              <div className="relative group">
-                <Link to="/register" className="text-gray-300 hover:text-white">Register</Link>
-              </div>
-            )}
-            {isLoggedIn && (
-              <div className="relative group">
-                <Link to="/dashboard" className="text-gray-300 hover:text-white">Dashboard</Link>
-              </div>
-            )}
-
-            {/* Conditionally render Login or Logout */}
-            {!isLoggedIn && (
-              <div className="relative group">
-                <Link to="/login" className="text-gray-300 hover:text-white">Login</Link>
-              </div>
-            )}
-            {isLoggedIn && (
-              <div className="relative group">
-                <button 
-                  onClick={toggleLoginState} 
-                  className="text-gray-300 hover:text-white"
-                >
-                  Logout
-                </button>
-              </div>
-            )}
+            <div className="relative group">
+              <Link to="/login" className="text-gray-300 hover:text-white">Login</Link>
+            </div>
           </div>
 
           {/* Mobile Hamburger Menu */}
@@ -84,12 +53,6 @@ function Navbar() {
           </div>
         </div>
 
-        <div className=''>
-          <marquee className="text-green-600 md:block lg:hidden w-full font-bold text-2xl pb-4">
-            Delivery on your Next Day from 09:00 AM to 07:00 PM
-          </marquee>
-        </div>
-
         {/* Mobile Dropdown Menu */}
         {isMenuOpen && (
           <div className="md:hidden mt-2">
@@ -97,31 +60,14 @@ function Navbar() {
             <Link to="/about" className="block text-gray-300 hover:text-white py-2 px-4">About</Link>
             <Link to="/services" className="block text-gray-300 hover:text-white py-2 px-4">Services</Link>
             <Link to="/contact" className="block text-gray-300 hover:text-white py-2 px-4">Contact</Link>
+            <Link to="/login" className="block text-gray-300 hover:text-white py-2 px-4">Login</Link>
 
-            {/* Conditionally render Register or Dashboard */}
-            {!isLoggedIn && (
-              <Link to="/register" className="block text-gray-300 hover:text-white py-2 px-4">Register</Link>
-            )}
-            {isLoggedIn && (
-              <Link to="/dashboard" className="block text-gray-300 hover:text-white py-2 px-4">Dashboard</Link>
-            )}
+          <div className="text-white py-2 px-4">  Delivery on your Next Day from 09:00 AM to 07:00 PM</div>
 
-            {/* Conditionally render Login or Logout */}
-            {!isLoggedIn && (
-              <Link to="/login" className="block text-gray-300 hover:text-white py-2 px-4">Login</Link>
-            )}
-            {isLoggedIn && (
-              <button 
-                onClick={toggleLoginState} 
-                className="block text-gray-300 hover:text-white py-2 px-4"
-              >
-                Logout
-              </button>
-            )}
           </div>
         )}
       </nav>
-      <Categoriesnav />
+      <Categoriesnav/>
     </>
   );
 }

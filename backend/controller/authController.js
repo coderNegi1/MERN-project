@@ -32,7 +32,12 @@ export const RegisterController = async (req, res) => {
         });
 
         const userRegister = await user.save();
-        return res.status(201).json({ message: "User registered successfully", user: userRegister });
+        return res.status(201).json({ 
+            success: true,  
+            message: "User registered successfully", 
+            user: userRegister 
+          });
+          
 
     } catch (err) {
         console.error(err);
@@ -67,6 +72,7 @@ export const LoginController = async (req, res) => {
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
         return res.status(200).json({
+            success: true,
             message: "Login successful",
             user: {
                 id: user._id,
