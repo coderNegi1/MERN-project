@@ -1,18 +1,22 @@
-import React, { useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate, NavLink } from 'react-router-dom';
 import Categoriesnav from './Categoriesnav';
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '../../contexts/AuthContext.jsx'; // Corrected import path
 
 function Navbar() {
-  const { isLoggedIn, logout } = useAuth(); // Use useAuth hook
+  const { isLoggedIn, logout, user } = useAuth();
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false); // For dropdown
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // For mobile menu
 
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <>
@@ -41,38 +45,78 @@ function Navbar() {
             </div>
 
             {!isLoggedIn ? (
-              <div className="relative group">
-                <Link to="/register" className="text-gray-300 hover:text-white">Register</Link>
-              </div>
+              <>
+                <div className="relative group">
+                  <NavLink
+                    to="/register"
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'text-blue-300 font-semibold'
+                        : 'text-gray-300 hover:text-white'
+                    }
+                  >
+                    Register
+                  </NavLink>
+                </div>
+                <div className="relative group">
+                  <NavLink
+                    to="/login"
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'text-blue-300 font-semibold'
+                        : 'text-gray-300 hover:text-white'
+                    }
+                  >
+                    Login
+                  </NavLink>
+                </div>
+              </>
             ) : (
-              <div className="relative group">
-                <Link to="/dashboard" className="text-gray-300 hover:text-white">Dashboard</Link>
-              </div>
-            )}
-
-            {!isLoggedIn ? (
-              <div className="relative group">
-                <Link to="/login" className="text-gray-300 hover:text-white">Login</Link>
-              </div>
-            ) : (
-              <div className="relative group">
+              <li className="relative">
                 <button
-                  onClick={handleLogout}
-                  className="text-gray-300 hover:text-white uppercase"
+                  className="text-white hover:text-gray-400"
+                  onClick={toggleDropdown}
                 >
-                  Logout
+                  DROPDOWN
                 </button>
-              </div>
+
+                {isOpen && (
+                  <div className="absolute left-[-130%] bg-gray-700 text-white rounded-md shadow-lg w-48 mt-2 py-4 z-1">
+                    <div className="px-4 py-2 hover:bg-gray-600">
+                      <NavLink
+                        to={`/dashboard/${user?.role === '1' ? 'admin' : 'user'}`}
+                        className="block"
+                      >
+                        Dashboard
+                      </NavLink>
+                    </div>
+                    <div className="px-4 py-2 hover:bg-gray-600">
+                      <NavLink onClick={handleLogout} to="/login" className="block">
+                        Logout
+                      </NavLink>
+                    </div>
+                    {user?.name && (
+                      <div className="mt-2  text-white m-2">
+                        <p className='border inline p-2 rounded shadow-2xl '> {user?.name}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </li>
             )}
           </div>
 
           <div className="md:hidden">
             <button
               className="text-gray-300 hover:text-white focus:outline-none"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
-                <path fillRule="evenodd" clipRule="evenodd" d="M4 6H20V8H4V6ZM4 12H20V14H4V12ZM4 18H20V20H4V18Z" />
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M4 6H20V8H4V6ZM4 12H20V14H4V12ZM4 18H20V20H4V18Z"
+                />
               </svg>
             </button>
           </div>
@@ -84,31 +128,58 @@ function Navbar() {
           </marquee>
         </div>
 
-        {isMenuOpen && (
-          <div className="md:hidden mt-2">
-            <Link to="/" className="block text-gray-300 hover:text-white py-2 px-4">Home</Link>
-            <Link to="/about" className="block text-gray-300 hover:text-white py-2 px-4">About</Link>
-            <Link to="/services" className="block text-gray-300 hover:text-white py-2 px-4">Services</Link>
-            <Link to="/contact" className="block text-gray-300 hover:text-white py-2 px-4">Contact</Link>
+        {isMobileMenuOpen && (
+          <div className="md:hidden mt-2 ">
+            <Link to="/" className="block text-gray-300 hover:text-white py-2 px-4">
+              Home
+            </Link>
+            <Link to="/about" className="block text-gray-300 hover:text-white py-2 px-4">
+              About
+            </Link>
+            <Link to="/services" className="block text-gray-300 hover:text-white py-2 px-4">
+              Services
+            </Link>
+            <Link to="/contact" className="block text-gray-300 hover:text-white py-2 px-4">
+              Contact
+            </Link>
 
             {!isLoggedIn ? (
-              <Link to="/register" className="block text-gray-300 hover:text-white py-2 px-4">Register</Link>
+              <>
+                <Link to="/register" className="block text-gray-300 hover:text-white py-2 px-4">
+                  Register
+                </Link>
+                <Link to="/login" className="block text-gray-300 hover:text-white py-2 px-4">
+                  Login
+                </Link>
+              </>
             ) : (
-              <Link to="/dashboard" className="block text-gray-300 hover:text-white py-2 px-4">Dashboard</Link>
+              <>
+                <Link
+                  to={`/dashboard/${user?.role === '1' ? 'admin' : 'user'}`}
+                  className="block text-gray-300 hover:text-white py-2 px-4"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="block text-gray-300 hover:text-white py-2 px-4"
+                >
+                  Logout
+                </button>
+              </>
             )}
 
-            {!isLoggedIn ? (
-              <Link to="/login" className="block text-gray-300 hover:text-white py-2 px-4">Login</Link>
-            ) : (
-              <button
-                onClick={handleLogout}
-                className="block text-gray-300 hover:text-white py-2 px-4"
-              >
-                Logout
-              </button>
-            )}
+
+            <div className=" text-white ">
+              <p className='py-2 px-4  '> {user?.name}</p>
+            </div>
           </div>
+
+
+
         )}
+
+
       </nav>
       <Categoriesnav />
     </>
