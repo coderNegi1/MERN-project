@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate, NavLink, useLocation } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import toast from "react-hot-toast";
-import { useAuth } from "../contexts/AuthContext";
-import Layout from "../components/common/layout";
+import { useAuth } from "../contexts/AuthContext";  // Correct import path
+import Layout from "../components/common/layout.jsx";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { auth, setAuth } = useAuth(); // Correct destructuring
 
+  // Get auth state and setAuth function
+  const [auth, setAuth] = useAuth(); // This returns [auth, setAuth] as an array
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,15 +20,21 @@ const Login = () => {
         email,
         password,
       });
+
       if (res && res.data.success) {
         toast.success(res.data.message);
+
+        // Update auth context state
         setAuth({
-          ...auth,
           user: res.data.user,
           token: res.data.token,
         });
+
+        // Save the auth data to localStorage
         localStorage.setItem("auth", JSON.stringify(res.data));
-        navigate("/");
+
+        // Redirect to the dashboard
+        navigate("/dashboard");
       } else {
         toast.error(res.data.message);
       }
@@ -59,7 +65,7 @@ const Login = () => {
 
         {/* Right Side (Login Form) */}
         <div className="w-full md:w-1/2 p-6 md:p-16 lg:p-32 flex flex-col justify-center align-middle">
-          <h2 className="text-2xl  text-start mb-4 uppercase font-bold">
+          <h2 className="text-2xl text-start mb-4 uppercase font-bold">
             Welcome Back !
           </h2>
           <p className="text-start mb-5 text-xl">
@@ -94,7 +100,7 @@ const Login = () => {
               Login Now
             </button>
           </form>
-          <button className="mt-4 w-full  flex justify-center items-center gap-2 border py-3 rounded-lg hover:bg-gray-100">
+          <button className="mt-4 w-full flex justify-center items-center gap-2 border py-3 rounded-lg hover:bg-gray-100">
             <img
               src="https://www.svgrepo.com/show/355037/google.svg"
               alt="Google"

@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import AppRoutes from "./routes/publicRoutes"; // double check file name!
+import AppRoutes from "../src/components/routes/publicRoutes"; 
 import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
