@@ -1,24 +1,29 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Logo from './logo';
-import Categoriesnav from './Categoriesnav'
-import AppRoutes from '../../routes/publicRoutes';
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import Categoriesnav from './Categoriesnav';
+import { useAuth } from '../../contexts/AuthContext'
 
 function Navbar() {
+  const { isLoggedIn, logout } = useAuth(); // Use useAuth hook
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <>
-      <nav className="bg-gray-800 p-4">
-        <div className=" mx-auto flex justify-between space-x-4  items-center">
-          <div>
-            <Logo/>
-          </div>
-          <div className="text-white hidden md:block animate-bounce border p-2 px-4 rounded-3xl">  Delivery on your Next Day from 09:00 AM to 07:00 PM</div>
+      <nav className="bg-black px-4">
+        <div className="mx-auto flex justify-between space-x-2 items-center">
+          <div className="text-white font-bold">MERNMart</div>
+          <marquee className="text-green-600 hidden lg:block p-2 w-96 font-bold text-2xl">
+            Delivery on your Next Day from 09:00 AM to 07:00 PM
+          </marquee>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex md:space-x-14">
-            {/* Main Menu Items */}
+          <div className="hidden md:flex md:space-x-14 uppercase text-[16px]">
             <div className="relative group">
               <Link to="/" className="text-gray-300 hover:text-white">Home</Link>
             </div>
@@ -35,12 +40,32 @@ function Navbar() {
               <Link to="/contact" className="text-gray-300 hover:text-white">Contact</Link>
             </div>
 
-            <div className="relative group">
-              <Link to="/login" className="text-gray-300 hover:text-white">Login</Link>
-            </div>
+            {!isLoggedIn ? (
+              <div className="relative group">
+                <Link to="/register" className="text-gray-300 hover:text-white">Register</Link>
+              </div>
+            ) : (
+              <div className="relative group">
+                <Link to="/dashboard" className="text-gray-300 hover:text-white">Dashboard</Link>
+              </div>
+            )}
+
+            {!isLoggedIn ? (
+              <div className="relative group">
+                <Link to="/login" className="text-gray-300 hover:text-white">Login</Link>
+              </div>
+            ) : (
+              <div className="relative group">
+                <button
+                  onClick={handleLogout}
+                  className="text-gray-300 hover:text-white uppercase"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* Mobile Hamburger Menu */}
           <div className="md:hidden">
             <button
               className="text-gray-300 hover:text-white focus:outline-none"
@@ -53,21 +78,39 @@ function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Dropdown Menu */}
+        <div className="">
+          <marquee className="text-green-600 md:block lg:hidden w-full font-bold text-2xl pb-4">
+            Delivery on your Next Day from 09:00 AM to 07:00 PM
+          </marquee>
+        </div>
+
         {isMenuOpen && (
           <div className="md:hidden mt-2">
             <Link to="/" className="block text-gray-300 hover:text-white py-2 px-4">Home</Link>
             <Link to="/about" className="block text-gray-300 hover:text-white py-2 px-4">About</Link>
             <Link to="/services" className="block text-gray-300 hover:text-white py-2 px-4">Services</Link>
             <Link to="/contact" className="block text-gray-300 hover:text-white py-2 px-4">Contact</Link>
-            <Link to="/login" className="block text-gray-300 hover:text-white py-2 px-4">Login</Link>
 
-          <div className="text-white py-2 px-4">  Delivery on your Next Day from 09:00 AM to 07:00 PM</div>
+            {!isLoggedIn ? (
+              <Link to="/register" className="block text-gray-300 hover:text-white py-2 px-4">Register</Link>
+            ) : (
+              <Link to="/dashboard" className="block text-gray-300 hover:text-white py-2 px-4">Dashboard</Link>
+            )}
 
+            {!isLoggedIn ? (
+              <Link to="/login" className="block text-gray-300 hover:text-white py-2 px-4">Login</Link>
+            ) : (
+              <button
+                onClick={handleLogout}
+                className="block text-gray-300 hover:text-white py-2 px-4"
+              >
+                Logout
+              </button>
+            )}
           </div>
         )}
       </nav>
-      <Categoriesnav/>
+      <Categoriesnav />
     </>
   );
 }
