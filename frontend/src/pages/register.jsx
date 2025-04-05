@@ -1,9 +1,50 @@
-import React from "react";
+import {useState} from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import Layout from "../components/common/layout";
 import { NavLink } from "react-router-dom";
 
 const Register = () => {
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [address, setAddress] = useState("");
+  const navigate = useNavigate();
+
+  // Form submission handler
+  const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        const res = await axios.post("/api/v1/auth/register", {
+          name,
+          email,
+          password,
+          phone,
+          answer,
+          address,
+        });
+        
+
+          if (res && res.data.success) {
+              toast.success(res.data.message);
+              navigate('/login');
+          } else {
+              toast.error(res.data.message);
+          }
+        
+      } catch (err) {
+          console.log(err);
+          toast.error("Something went wrong");
+      }
+  };
+
   return (
-    <div className="flex flex-col md:flex-row min-h-screen font-[inter]">
+    <Layout>
+      <div className="flex flex-col md:flex-row min-h-screen font-[inter]">
       {/* Left Side */}
       <div className="hidden md:flex flex-col text-start justify-center pl-10 md:pl-24 w-full md:w-1/2 bg-gradient-to-br from-blue-600 to-indigo-950 text-white p-6 md:p-10">
         <div>
@@ -24,31 +65,50 @@ const Register = () => {
           Fill in the details below to register and start shopping with us.
         </p>
         <hr />
-        <form className="w-full ">
+        <form className="w-full" onSubmit={handleSubmit}>
           <input
             type="text"
-            placeholder="Full Name"
+            name="name"
+            placeholder="full Name"
+            onChange={(e) => setName(e.target.value)}
             className="w-full p-3 border-b-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="email"
             placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
+            name="email"
             className="w-full p-3 border-b-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="password"
             placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+            name="password"
             className="w-full p-3 border-b-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <input
             type="number"
             placeholder="mobile number"
+            onChange={(e) => setPhone(e.target.value)}
+            name="phone"
             className="w-full p-3 border-b-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
            <input
             type="text"
             placeholder="address"
+            onChange={(e) => setAddress(e.target.value)}
+            name="address"
             className="w-full p-3 border-b-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="text"
+            name="answer"
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
+            placeholder="Security question answer"
+            className="w-full p-3 border-b-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+
           />
           <button
             type="submit"
@@ -57,12 +117,13 @@ const Register = () => {
             Register Now
           </button>
         </form>
-        <p className="text-md md:text-md mb-4 text-start mt-4 flex">
-          <p><span> Already have an account?</span ></p>
-          <NavLink to="/login" className="text-blue-600 ms-4"> Login here</NavLink>
-        </p>
+          <div className="text-md md:text-md mb-4 text-start mt-4 flex">
+            <span>Already have an account?</span>
+            <NavLink to="/login" className="text-blue-600 ms-4">Login here</NavLink>
+          </div>
       </div>
     </div>
+    </Layout>
   );
 };
 

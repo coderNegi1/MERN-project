@@ -1,15 +1,18 @@
-
-// App.js
-import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom'; // Only one Router
-import AppRoutes from './routes/publicRoutes'; //use the now corrected AppRoutes
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import AppRoutes from "./routes/publicRoutes"; // double check file name!
+import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
   return (
     <Router>
-      <AppRoutes />
-
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
     </Router>
-)
+  );
 }
+
 export default App;
+
+
