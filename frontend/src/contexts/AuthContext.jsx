@@ -13,9 +13,12 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const data = localStorage.getItem("auth");
     if (data) {
-      const parsed = JSON.parse(data);
-      setAuth({ ...parsed, isLoggedIn: !!parsed.token });
-      axios.defaults.headers.common["Authorization"] = parsed.token;
+      try {
+        const parsed = JSON.parse(data);
+        setAuth({ ...parsed, isLoggedIn: !!parsed.token });
+      } catch (error) {
+        console.error("Error parsing auth data from localStorage:", error);
+      }
     }
   }, []);
 
