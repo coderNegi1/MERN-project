@@ -1,9 +1,9 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({
     user: null,
     token: "",
@@ -11,43 +11,33 @@ const AuthProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    const data = localStorage.getItem("auth");
-    if (data) {
-      try {
-        const parsed = JSON.parse(data);
-        setAuth({ ...parsed, isLoggedIn: !!parsed.token });
-      } catch (error) {
-        console.error("Error parsing auth data from localStorage:", error);
-      }
+    const storedData = localStorage.getItem("auth");
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      setAuth(parsedData);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${parsedData.token}`;
     }
   }, []);
+  
 
-  useEffect(() => {
-    if (auth?.token) {
-      axios.defaults.headers.common["Authorization"] = auth.token;
-      setAuth((prevAuth) => ({ ...prevAuth, isLoggedIn: true }));
-    } else {
-      setAuth((prevAuth) => ({ ...prevAuth, isLoggedIn: false }));
-    }
-  }, [auth?.token]);
-
-  const login = (userData) => {
-    setAuth({ ...userData, isLoggedIn: true });
-    localStorage.setItem("auth", JSON.stringify(userData));
+  const login = ({ user, token }) => {
+    const updatedAuth = { user, token, isLoggedIn: true };
+    setAuth(updatedAuth);
+    localStorage.setItem("auth", JSON.stringify(updatedAuth));
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`; // ✅ Fix here
   };
 
   const logout = () => {
     setAuth({ user: null, token: "", isLoggedIn: false });
     localStorage.removeItem("auth");
+    delete axios.defaults.headers.common["Authorization"];
   };
 
   return (
-    <AuthContext.Provider value={{ ...auth, setAuth, login, logout }}>
+    <AuthContext.Provider value={{ ...auth, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-const useAuth = () => useContext(AuthContext);
-
-export { AuthProvider, useAuth };
+export const useAuth = () => useContext(AuthContext);
