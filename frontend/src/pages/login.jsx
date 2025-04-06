@@ -8,6 +8,10 @@ import Layout from "../components/common/layout.jsx";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+<<<<<<< HEAD
+=======
+  const { login } = useAuth(); // ✅ Fixed here
+>>>>>>> 5ea9bb5e1c6e374cd94bb674e5b391a4331d0246
 
   // Get auth state and setAuth function
   const [auth, setAuth] = useAuth(); // This returns [auth, setAuth] as an array
@@ -24,17 +28,30 @@ const Login = () => {
       if (res && res.data.success) {
         toast.success(res.data.message);
 
+<<<<<<< HEAD
         // Update auth context state
         setAuth({
+=======
+        login({
+>>>>>>> 5ea9bb5e1c6e374cd94bb674e5b391a4331d0246
           user: res.data.user,
           token: res.data.token,
         });
 
+<<<<<<< HEAD
         // Save the auth data to localStorage
         localStorage.setItem("auth", JSON.stringify(res.data));
 
         // Redirect to the dashboard
         navigate("/dashboard");
+=======
+        // ✅ Redirect based on user role
+        const role = parseInt(res.data.user?.role); // Ensure it's a number
+
+        navigate("/");
+
+        
+>>>>>>> 5ea9bb5e1c6e374cd94bb674e5b391a4331d0246
       } else {
         toast.error(res.data.message);
       }

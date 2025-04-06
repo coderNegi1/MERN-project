@@ -62,6 +62,20 @@ function Navbar() {
                     <button onClick={handleLogout} className="block px-4 py-2 hover:bg-gray-600">
                       Logout
                     </button>
+                  <div className="absolute left-[-130%] bg-gray-700 text-white rounded-md shadow-lg w-48 mt-2 py-4 z-1">
+                    <div className="px-4 py-2 hover:bg-gray-600">
+                      <NavLink
+                        to={`/dashboard/${user?.role === 1 ? 'admin' : 'user'}`}
+                        className="block"
+                      >
+                        Dashboard
+                      </NavLink>
+                    </div>
+                    <div className="px-4 py-2 hover:bg-gray-600">
+                      <NavLink onClick={handleLogout} to="/login" className="block">
+                        Logout
+                      </NavLink>
+                    </div>
                     {user?.name && (
                       <div className="mt-2 text-white m-2">
                         <p className="border inline p-2 rounded shadow-2xl"> {user?.name}</p>
@@ -72,6 +86,7 @@ function Navbar() {
               </li>
             )}
           </div>
+          
 
           <div className="md:hidden">
             <button
@@ -86,30 +101,30 @@ function Navbar() {
           </div>
         </div>
 
-        {isMobileMenuOpen && (
-          <div className="md:hidden mt-2">
-            <NavLink to="/" className="block text-gray-300 hover:text-white py-2 px-4">Home</NavLink>
-            <NavLink to="/about" className="block text-gray-300 hover:text-white py-2 px-4">About</NavLink>
-            <NavLink to="/services" className="block text-gray-300 hover:text-white py-2 px-4">Services</NavLink>
-            <NavLink to="/contact" className="block text-gray-300 hover:text-white py-2 px-4">Contact</NavLink>
+          {isMobileMenuOpen && (
+            <div className="md:hidden mt-2">
+              <NavLink to="/" className="block text-gray-300 hover:text-white py-2 px-4">Home</NavLink>
+              <NavLink to="/about" className="block text-gray-300 hover:text-white py-2 px-4">About</NavLink>
+              <NavLink to="/services" className="block text-gray-300 hover:text-white py-2 px-4">Services</NavLink>
+              <NavLink to="/contact" className="block text-gray-300 hover:text-white py-2 px-4">Contact</NavLink>
 
-            {!isLoggedIn ? (
-              <>
-                <NavLink to="/register" className="block text-gray-300 hover:text-white py-2 px-4">Register</NavLink>
-                <NavLink to="/login" className="block text-gray-300 hover:text-white py-2 px-4">Login</NavLink>
-              </>
-            ) : (
-              <>
-                <button onClick={redirectToDashboard} className="block text-gray-300 hover:text-white py-2 px-4">Dashboard</button>
-                <button onClick={handleLogout} className="block text-gray-300 hover:text-white py-2 px-4">Logout</button>
-              </>
-            )}
+              {!isLoggedIn ? (
+                <>
+                  <NavLink to="/register" className="block text-gray-300 hover:text-white py-2 px-4">Register</NavLink>
+                  <NavLink to="/login" className="block text-gray-300 hover:text-white py-2 px-4">Login</NavLink>
+                </>
+              ) : (
+                <>
+                  <button onClick={redirectToDashboard} className="block text-gray-300 hover:text-white py-2 px-4">Dashboard</button>
+                  <button onClick={handleLogout} className="block text-gray-300 hover:text-white py-2 px-4">Logout</button>
+                </>
+              )}
 
-            <div className="text-white">
-              <p className="py-2 px-4"> {user?.name}</p>
+              <div className="text-white">
+                <p className="py-2 px-4"> {user?.name}</p>
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </nav>
       <Categoriesnav />
     </>
