@@ -8,7 +8,7 @@ import Layout from "../components/common/layout";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { auth, setAuth } = useAuth(); // Correct destructuring
+  const { login } = useAuth(); // ✅ Fixed here
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,15 +20,21 @@ const Login = () => {
         email,
         password,
       });
+
       if (res && res.data.success) {
         toast.success(res.data.message);
-        setAuth({
-          ...auth,
+
+        login({
           user: res.data.user,
           token: res.data.token,
         });
-        localStorage.setItem("auth", JSON.stringify(res.data));
+
+        // ✅ Redirect based on user role
+        const role = parseInt(res.data.user?.role); // Ensure it's a number
+
         navigate("/");
+
+        
       } else {
         toast.error(res.data.message);
       }

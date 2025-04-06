@@ -84,7 +84,7 @@ function Navbar() {
                   <div className="absolute left-[-130%] bg-gray-700 text-white rounded-md shadow-lg w-48 mt-2 py-4 z-1">
                     <div className="px-4 py-2 hover:bg-gray-600">
                       <NavLink
-                        to={`/dashboard/${user?.role === '1' ? 'admin' : 'user'}`}
+                        to={`/dashboard/${user?.role === 1 ? 'admin' : 'user'}`}
                         className="block"
                       >
                         Dashboard

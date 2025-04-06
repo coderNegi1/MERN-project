@@ -69,7 +69,8 @@ export const LoginController = async (req, res) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+
 
         return res.status(200).json({
             success: true,
@@ -80,7 +81,8 @@ export const LoginController = async (req, res) => {
                 email: user.email,
                 phone: user.phone,
                 address: user.address,
-                answer: user.answer
+                answer: user.answer,
+                role: user.role
             },
             token
         });
@@ -89,6 +91,8 @@ export const LoginController = async (req, res) => {
         res.status(500).json({ error: "Server error" });
     }
 };
+
+
 
 
 
